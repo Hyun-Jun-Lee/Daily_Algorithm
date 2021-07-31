@@ -20,3 +20,23 @@ N명의 학생 중 평균에 가장 가까운 학생은 몇 번째 학생인지 
 ▣ 출력예제 1
 74 7
 '''
+
+n = int(input())
+a = list(map(int, input().split()))
+ave = round(sum(a)/n) 
+min = 0
+res = 0
+for idx, x in enumerate(a): # idx: 인덱스 번호, x : 해당 값 -> 인덱스 번호와 해당 값을 순서로 배정해주는 enumerate함수
+    temp = abs(x-ave) # 평균과 해당 값의 차이 구하기
+    if temp<min: # temp 값이 최소값 보다 작다면 해당 값을 최소값으로
+        min=temp
+        score = x # 평균과 똑같이 가까울 땐 점수가 큰 학생 번호를 출력해야함으로 점수 할당
+        res = idx+1 # 0번부터 시작햇으니 +1
+    
+    elif temp == min: # 같은 경우 점수가 큰 학생이 답
+        if x > score:
+            score = x
+            res = idx+1
+    print(ave, res)
+
+
