@@ -26,6 +26,7 @@ count = 0
 for i in range(2,n+1):
     if check_list[i]==0:
         count+=1
-
+        for j in range(i, n+1, i) : # i부터 n+1까지 i의배수로증가
+            check_list[j]=1
 
 print(count)
