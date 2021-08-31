@@ -1,5 +1,6 @@
 # Network
 
+
 <details>
     <summary>TCP/IP?</summary>
 
@@ -10,7 +11,7 @@
             - 도메인 주소를 네트워크 주소로 변환하는 기능을 위한 DNS 지원
             - 애플리케이션 계층 패킷을 Message 라고 함.
 
-        - Transport Layer(L4)
+        - Transport Layer(L4) 
             - 네트워크 계층에서 보내온 데이터를 정렬하고 오류를 수정 하여 신뢰할 수 있는 통신 확보
             - TCP/UDP 같은 프로토콜이 이 계층에 위치
             - 트랜스포트 계층 패킷을 Segment 라고 함.
@@ -28,8 +29,72 @@
         - Physical Layer(L1)
             - 물리적 연결 및 전기신호 변환/제어 담당
             - 컴퓨터와 네트워크 장비를 물리적으로 연결
+
 </details>
 
 
-    
+<details>
+    <summary>OSI7 계층 vs TCP/IP</summary>
+
+    - OSI 7계층은 TCP/IP 계층을 더 세분화 한 것
+    - TCP/IP 에서 L1, L2 계층을 합쳐 네트워크 인터페이스 계층이라고 부르기도함
+    - TCP/IP 에서 응용 계층은 OSI 에서 응용 표현 세션 계층으로 나뉘어짐
+      - Application Layer : 사용자, 애플리케이션이 네트워크에 접근할 수 있도록 해주는 계층 / 인터페이스 지원, 사용자 에게 보이는 유일한 계층
+      - Presentation Layer : 응용 계층으로 부터 전달, 전송하는 데이터의 인코딩 및 디코딩이 이루어지는 계층 / 응용계층에 맞춰 데이터를 변환
+      - Session Layer : 응용프로세스가 통신을 관리하기 위한 방법 정의 / 네트워크상 양쪽의 연결을 관리/지속시키는 역할과 세션을 만들거나 없애는 역할을 담당하는 계층
+</details>
+
+<details>
+    <summary>TCP vs UDP</summary>
+
+    - TCP는 연결 지향형 프로토콜 / UDP는 데이터를 데이터그램 단위로 전송하는 프로토콜
+    - TCP는 가상 회선을 만들어 신뢰성 보장하도록(흐름, 혼잡, 오류 제어)하는 프로토콜 / UDP는 따로 신뢰성 보장하는 절차 없어서 빠름
+      - 흐름제어 : 상대방이 받을 수 있는 만큼만 데이터를 효율적으로 전송하는 것
+      - 오류제어 : 데이터의 오류나 누락 없이 안전한 전송을 보장하는 것, 오류가 발생하면 재전송 수행하여 이를 보정
+      - 혼잡제어 : 넽워크의 혼잡 정도에 따라 송신자가 데이터 전송량을 제어하는 것, 혼잡의 정도에 대한 판단기준은 데이터의 손실 발생 유무로 판단
+    - TCP는 파일 전송과 같은 신뢰성이 중요한 서비스에 사용 / UDP는 스트리밍과 같이 연속성이 중요한 서비스에 사용
+
+    - TCP 연결 과정 : 3 way handshake, 4 way handshake (양방향 Connection)
+    - TCP segment를 제대로 수신하면 ACK, 제대로 수신 못하면 NACK
+    - TCP segment에서 Header 부분에 오류를 체크하는 Checksum이 있다.
+
+</details>
+
+<details>
+    <summary> Frame, Packet, Segment, Datagram 비교 </summary>
+
+    - Packet : 컴퓨터간 데이터 주고 받을 때, 네트워크를 통해 전송데는 데이터 조각. 데이터의 손실 방지 및 패킷 흐름 조절을 위해 일정 단위로 잘라서 보내게됨
+    각 계층에서 필요한 정보는 캡슐화 되어 전달, 수신측은 받은 패킷을 재조립하여 사용
+    - Segment : Transport Layer(L4)에서 신뢰성 있는 통신을 구현하기 위한 Header를 L5의 data(message)에 붙인 것.
+    - Datagram : Network Layer(L3)에서 다른 네트워크와 통신하기 위한 Header를 L4의 segment에 붙인 것.
+    - Frame : Datalink Layer(L2)에서 물리적인 통신 채널을 열기 위해 Packet에 Header, Trailer을 붙임.
+    Trailer는 데이터 끝에 분여서 오류 검출에 사용
+</details>
+
+<details>
+    <summary>3-way-handshake 와 4-way-handshake 비교</summary>
+
+    - 3-way-handshake : 호스트 간 데이터 전송 전에 정확한 전송을 보장하기 위해 상대 컴퓨터와 사전에 세션을 수립하는 과정
+
+        1. Client에서 Server로 연결 요청 메시지 전송(SYN)
+        2. Server 에서 SYN 요청 받고 Client에게 요청을 수락 한다는 ACK와 SYN 전송하고 ACK 응답을 기다림 (이 때 Server는 SYN_RECEIVED 상태)
+        3. Client는 Server에 ACK를 보내고, 이후부터 연결 (이 때 Server는 ESTABLISHED 상태)
+
+    - 4-way-handshake : 세션을 종료할 때 수행
+
+        1. Client가 연결을 종료하겟다는 FIN 전송
+        2. Server는 일단 확인 메세지 전송(ACK)하고, 자신의 통신이 끝날 때 까지 기다림 (TIME_WAIT 상태)
+        3. Server가 통신이 끝났으면 연결이 종료되었다고 Client에 FIN 전송
+        4. Client에서 확인했다는 메세지(ACK) 전송
+        (TIME_WAIT : Server에서 FIN을 전송하기 전에 전송한 패킷이 FIN보다 늦게 도착하는 상황 대비해 잉여 패킷을 기다리는 과정)
+
+    - 용어
+        - SYN(Synchronization): 연결요청, 세션을 설정하는데 사용되며 초기에 시퀀스 번호를 보낸다.
+        - ACK(Acknowledgement): 보낸 시퀀스 번호에 TCP 계층에서의 길이 또는 양을 더한 것과 같은 값을 ACK에 포함하여 전송한다.
+        - FIN(Finish) : 세션을 종료시키는데 사용되며 더 이상 보낸 데이터가 없음을 표시한다.
+
+</details>
+
+
+
 
