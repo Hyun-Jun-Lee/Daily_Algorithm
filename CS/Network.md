@@ -92,9 +92,37 @@
         - SYN(Synchronization): 연결요청, 세션을 설정하는데 사용되며 초기에 시퀀스 번호를 보낸다.
         - ACK(Acknowledgement): 보낸 시퀀스 번호에 TCP 계층에서의 길이 또는 양을 더한 것과 같은 값을 ACK에 포함하여 전송한다.
         - FIN(Finish) : 세션을 종료시키는데 사용되며 더 이상 보낸 데이터가 없음을 표시한다.
+    
+    - 3-way-handshake 와 4-way-handshake 차이
+        - 연결 설정 과정과는 다르게 종료 과정에서는 아직 전송중인 데이터에 대한 경우를 고려해야하기 때문.
+        - Client는 아직 Server로 부터 받지 못한 데이터가 있을 것을 대비하여 일정시간 동안 세션을 남기는 TIME_WAIT 상태 후, 데이터를 모두 보냇다는 FIN을 받으면 종료
 
 </details>
 
+<details>
+    <summary>HTTP와 HTTPS 차이</summary>
+    
+    - HTTP : Server/Client 간 데이터를 주고받기 위한 프로토콜 / 암호화가 추가 되지 않았기 때문에 단순한 정보와 같은 작업만 처리 / 80번 포트 사용
+    - HTTPS : HTTP에 암호화(공개키)가 추가된 프로토콜 /  암호화, 복호화 과정이 필요하기 때문에 HTTP에 비해 느리고 인증서 발급 등을 위한 비용 발생 / 443번 포트
+</details>
 
+<details>
+    <summary>HTTP GET과 POST 메서드 비교</summary>
+    
+    - GET : Client에서 Server로 어떠한 정보를 요청할 때 사용되는 메서드
+        - GET 요청은 캐시가 가능
+        - GET 요청은 브라우저에 히스토리가 남음
+        - GET 요청은 길이제한
+    
+    - POST : Client에서 Server로 리소스를 생성 및 업데이트하기 위해 데이터를 보낼 때 사용
+        - 전송할 데이터를 HTTP body 부분에 담아서 보냄(GET에서 URL의 파라미터로 보냈던 name1=value1&name2=value2가 body에 담겨 보내진다 생각하면 됨)
+        - POST로 데이터를 전송할 때 길이 제한이 따로 없어 용량이 큰 데이터를 보낼 때 사용하거나 GET처럼 데이터가 외부적으로 드러나는 건 아니라서 보안이 필요한 부분에 많이 사용
+
+    - 차이점
+        - 사용 목적 : GET은 데이터 요청, POST는 새로 생성 및 업데이트
+        - body 유무 : GET은 HTML 메세지에 body X, POST는 데이터를 담아 보내기 때문에 당연히 body O
+        - 멱등성(idempotent) : GET은 멱등, POST는 X
+        - 멱등성(idempotent)? : 여러번 적용하더라도 결과가 달라지지 않는 성질
+</details>
 
 
