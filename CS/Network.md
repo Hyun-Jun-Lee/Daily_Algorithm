@@ -190,6 +190,19 @@
    
 </details>
 
+<details>
+    <summary>CORS</summary>
+    
+    - 교차 출처 리소스 공유(Cross-Origin Resource Sharing, CORS)
+        - 출처가 서로 다른 도메인간에 자원을 공유하는 것 / 대부분의 브라우저에서는 이를 기본적으로 차단하며, 서버측에서 헤더를 통해서 사용가능한 자원을 알려줌 
+        - 출처(Origin) = Protocal + Host + Port ( ex) 'https://github.com' location.origin 명령어로 출처 확인)
+    
+        - Preflight request : 서버에 예비 요청을 보내서 안전한지 판단한 후 본 요청을 보내는 방법, . OPTIONS 메서드로 요청하며 CORS를 허용하는지 확인 후 CORS가 허용된 웹서버라면 사용 가능한 리소스를 헤더에 담아 응답
+    
+</details>
+
+
+
 
 
 
